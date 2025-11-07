@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string, request [cite: 42]
+from flask import Flask, render_template_string, request [cite:42]
 import os [cite: 42]
 import psycopg2 [cite: 42]
 
