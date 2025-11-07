@@ -1,64 +1,64 @@
-from flask import Flask, render_template_string, request [cite:42]
-import os [cite: 42]
-import psycopg2 [cite: 42]
+from flask import Flask, render_template_string, request
+import os 
+import psycopg2 
 
-app = Flask(__name__) [cite: 42]
+app = Flask(__name__) 
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://beyza:BUqh2YXOo1ihM0ZSISi3tIzENBUbj2Yy@dpg-d46s2249c44c738mtgv0-a.oregon-postgres.render.com/hello_cloud3_db_vwg4") [cite: 42, 164]
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://beyza:BUqh2YXOo1ihM0ZSISi3tIzENBUbj2Yy@dpg-d46s2249c44c738mtgv0-a.oregon-postgres.render.com/hello_cloud3_db_vwg4") 
 
-HTML = """ [cite: 42]
-<!doctype html> [cite: 42]
-<html> [cite: 42]
-<head> [cite: 42]
-<title>Buluttan Selam!</title> [cite: 42]
-<style> [cite: 42]
-body { font-family: Arial; text-align: center; padding: 50px; background: #eef2f3; } [cite: 42]
-h1 { color: #333; } [cite: 42]
-form { margin: 20px auto; } [cite: 42]
-input { padding: 10px; font-size: 16px; } [cite: 42]
-button { padding: 10px 15px; background: #4CAF50; color: white; border: none; border-radius: 6px; cursor: pointer; } [cite: 42]
-ul { list-style: none; padding: 0; } [cite: 42]
-li { background: white; margin: 5px auto; width: 200px; padding: 8px; border-radius: 5px; } [cite: 42]
-</style> [cite: 42, 44]
-</head> [cite: 44]
-<body> [cite: 56]
-<h1>Buluttan Selam!</h1> [cite: 57]
-<p>Adını yaz, selamını bırak </p> [cite: 58]
-<form method="POST"> [cite: 59]
+HTML = """
+<!doctype html> 
+<html> 
+<head>
+<title>Buluttan Selam!</title>
+<style> 
+body { font-family: Arial; text-align: center; padding: 50px; background: #eef2f3; }
+h1 { color: #333; }
+form { margin: 20px auto; }
+input { padding: 10px; font-size: 16px; }
+button { padding: 10px 15px; background: #4CAF50; color: white; border: none; border-radius: 6px; cursor: pointer; } 
+ul { list-style: none; padding: 0; } 
+li { background: white; margin: 5px auto; width: 200px; padding: 8px; border-radius: 5px; } 
+</style> 
+</head> 
+<body> 
+<h1>Buluttan Selam!</h1> 
+<p>Adını yaz, selamını bırak </p> 
+<form method="POST">
 <input type="text" name="isim" placeholder="Adını yaz" required>
- <button type="submit">Gönder</button> [cite: 60]
-</form> [cite: 61]
-<h3>Ziyaretçiler:</h3> [cite: 62]
-<ul> [cite: 54]
-{% for ad in isimler %} [cite: 63]
-<li>{{ ad }}</li> [cite: 65]
-{% endfor %} [cite: 67]
-</ul> [cite: 69]
-</body> [cite: 71]
-</html> [cite: 73]
-""" [cite: 42]
+ <button type="submit">Gönder</button> 
+</form>
+<h3>Ziyaretçiler:</h3> 
+<ul> 
+{% for ad in isimler %} 
+<li>{{ ad }}</li> 
+{% endfor %} 
+</ul> 
+</body>
+</html>
+""" 
 
-def connect_db(): [cite: 77]
-    conn = psycopg2.connect(DATABASE_URL) [cite: 79]
-    return conn [cite: 82]
+def connect_db(): 
+    conn = psycopg2.connect(DATABASE_URL) 
+    return conn
 
-@app.route("/", methods=["GET", "POST"]) [cite: 99]
-def index(): [cite: 100]
-    conn = connect_db() [cite: 101]
-    cur = conn.cursor() [cite: 102]
-    cur.execute("CREATE TABLE IF NOT EXISTS ziyaretciler (id SERIAL PRIMARY KEY, isim TEXT)") [cite: 103]
+@app.route("/", methods=["GET","POST"]) 
+def index(): 
+    conn = connect_db() 
+    cur = conn.cursor() 
+    cur.execute("CREATE TABLE IF NOT EXISTS ziyaretciler (id SERIAL PRIMARY KEY, isim TEXT)") 
     
-    if request.method == "POST": [cite: 104]
-        isim = request.form.get("isim") [cite: 105]
-        if isim: [cite: 106]
-            cur.execute("INSERT INTO ziyaretciler (isim) VALUES (%s)", (isim,)) [cite: 107]
-            conn.commit() [cite: 107]
+    if request.method == "POST": 
+        isim = request.form.get("isim")
+        if isim: 
+            cur.execute("INSERT INTO ziyaretciler (isim) VALUES (%s)", (isim,)) 
+            conn.commit() 
     
-    cur.execute("SELECT isim FROM ziyaretciler ORDER BY id DESC LIMIT 10") [cite: 108]
-    isimler = [row[0] for row in cur.fetchall()] [cite: 108]
+    cur.execute("SELECT isim FROM ziyaretciler ORDER BY id DESC LIMIT 10")
+    isimler = [row[0] for row in cur.fetchall()] 
     
-    cur.close() [cite: 111]
-    conn.close() [cite: 114]
+    cur.close() 
+    conn.close() 
     
     return render_template_string(HTML, isimler=isimler) [cite: 115]
 
