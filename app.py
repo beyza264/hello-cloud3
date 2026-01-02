@@ -11,7 +11,7 @@ app = Flask(__name__)
 # bir "Environment Variable" olarak tanımlamak en iyi uygulamadır.
 DATABASE_URL = os.getenv(
     "DATABASE_URL", 
-    "postgresql://beyza:BUqh2YXOo1ihM0ZSISi3tIzENBUbj2Yy@dpg-d46s2249c44c738mtgv0-a.oregon-postgres.render.com/hello_cloud3_db_vwg4"
+    "postgresql://hello_cloud3_db_6unp_user:QtX2pwfVH4Tu0kn6EVpDDIieV43qYJsG@dpg-d5bsiv0gjchc73c9usfg-a/hello_cloud3_db_6unp"
 )
 
 HTML = """
