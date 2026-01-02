@@ -43,7 +43,7 @@ HTML = """
             <li>{{ ad }}</li>
         {% endfor %}
     </ul>
- <div>Beyza Nur Yılmaz </div>
+    <div style="margin-top:30px; font-weight:bold;">Beyza Nur Yılmaz</div>
 </body>
 </html>
 """
